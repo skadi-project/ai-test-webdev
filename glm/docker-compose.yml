@@ -1,0 +1,19 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gh-portfolio:latest
+    container_name: gh-portfolio
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Inside the container the app always listens on 8080; ${PORT} from .env
+      # only selects the *host* port in the mapping below.
+      PORT: "8080"
+      CACHE_DIR: /data
+    ports:
+      - "${PORT:-8080}:8080"
+    volumes:
+      - ./data:/data

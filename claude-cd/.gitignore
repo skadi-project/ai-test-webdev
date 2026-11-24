@@ -1,0 +1,6 @@
+/target/
+/_probe/
+/data/
+.env
+*.log
+*.zip

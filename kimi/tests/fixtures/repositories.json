@@ -1,0 +1,66 @@
+[
+  {
+    "name": "atlas",
+    "description": "A fast command-line cartography tool",
+    "html_url": "https://github.com/octocat/atlas",
+    "homepage": "https://atlas.example.com",
+    "language": "Rust",
+    "stargazers_count": 42,
+    "forks_count": 7,
+    "topics": ["cli", "maps", "rust"],
+    "updated_at": "2026-11-20T12:30:00Z",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "beacon",
+    "description": "Tiny status page with webhooks",
+    "html_url": "https://github.com/octocat/beacon",
+    "homepage": "",
+    "language": "TypeScript",
+    "stargazers_count": 75,
+    "forks_count": 9,
+    "topics": ["monitoring", "web"],
+    "updated_at": "2026-11-23T08:00:00Z",
+    "fork": false,
+    "archived": false
+  },
+  {
+    "name": "archive-box",
+    "description": "An old experiment",
+    "html_url": "https://github.com/octocat/archive-box",
+    "homepage": null,
+    "language": "Shell",
+    "stargazers_count": 100,
+    "forks_count": 1,
+    "topics": ["legacy"],
+    "updated_at": "2020-01-01T00:00:00Z",
+    "fork": false,
+    "archived": true
+  },
+  {
+    "name": "forked-project",
+    "description": "A fork used by the fixture tests",
+    "html_url": "https://github.com/octocat/forked-project",
+    "homepage": null,
+    "language": "Python",
+    "stargazers_count": 200,
+    "forks_count": 0,
+    "updated_at": "2026-11-24T00:00:00Z",
+    "fork": true,
+    "archived": false
+  },
+  {
+    "name": "secret-lab",
+    "description": "Excluded by configuration",
+    "html_url": "https://github.com/octocat/secret-lab",
+    "homepage": null,
+    "language": "Rust",
+    "stargazers_count": 300,
+    "forks_count": 0,
+    "topics": ["cli"],
+    "updated_at": "2026-11-24T01:00:00Z",
+    "fork": false,
+    "archived": false
+  }
+]

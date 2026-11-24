@@ -1,0 +1,14 @@
+target/
+_probe/
+data/
+.env
+.env.*
+!.env.example
+.git/
+.github/
+*.log
+*.zip
+node_modules/
+README.md
+SOURCE_CODE.md
+tests/

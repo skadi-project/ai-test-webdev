@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Автоматически обновляемое портфолио GitHub-разработчика">
+    <meta name="theme-color" content="#f4f3ed">
+    <title>GitHub Portfolio — код, проекты, статистика</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/app.css">
+    <script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("portfolio-theme");
+          const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = saved || (dark ? "dark" : "light");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#repositories">Перейти к проектам</a>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="GitHub Portfolio, на главную">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M8 7h16v18H8z"/><path d="M12 12h8M12 16h8M12 20h5"/></svg>
+        </span>
+        <span>GH<span class="brand-slash">/</span>FOLIO</span>
+      </a>
+      <div class="header-actions">
+        <span class="live-label"><span class="live-dot" aria-hidden="true"></span>LIVE CACHE</span>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Переключить цветовую тему" aria-pressed="false">
+          <svg class="theme-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c-5 2-11-4-9-9Z"/></svg>
+          <span id="theme-label">Тема</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <noscript><p class="noscript">Для загрузки данных GitHub нужен JavaScript. API также доступно напрямую по адресам <a href="/api/profile">/api/profile</a> и <a href="/api/repos">/api/repos</a>.</p></noscript>
+
+      <div class="notice" id="notice" role="status" hidden>
+        <span id="notice-text"></span>
+        <button type="button" id="notice-close" aria-label="Закрыть уведомление">×</button>
+      </div>
+
+      <section class="hero" aria-label="Профиль разработчика">
+        <div class="profile-skeleton" id="profile-skeleton" aria-label="Загрузка профиля">
+          <div class="skeleton skeleton-avatar"></div>
+          <div class="skeleton-copy">
+            <div class="skeleton skeleton-line short"></div>
+            <div class="skeleton skeleton-title"></div>
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line medium"></div>
+          </div>
+        </div>
+        <article class="profile" id="profile" hidden></article>
+
+        <aside class="language-panel" aria-labelledby="languages-title">
+          <div class="section-kicker">01 / ЯЗЫКИ</div>
+          <div class="language-heading">
+            <h2 id="languages-title">В цифрах<br>и байтах</h2>
+            <span class="small-label">по всем репозиториям</span>
+          </div>
+          <div id="languages-skeleton" class="languages-skeleton" aria-label="Загрузка статистики языков">
+            <div class="skeleton skeleton-donut"></div>
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line medium"></div>
+          </div>
+          <div id="languages-content" class="languages-content" hidden>
+            <div class="language-chart-wrap">
+              <div id="language-chart" class="language-chart" role="img" aria-label="Диаграмма языков">
+                <span>CODE</span>
+              </div>
+            </div>
+            <ul class="language-list" id="language-list"></ul>
+          </div>
+          <p class="language-empty" id="languages-empty" hidden>Статистика появится после первой синхронизации.</p>
+        </aside>
+      </section>
+
+      <section class="repositories" id="repositories" aria-labelledby="repositories-title">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">02 / РЕПОЗИТОРИИ</div>
+            <h2 id="repositories-title">Избранное<br><span>из открытого кода</span></h2>
+          </div>
+          <div class="sync-block">
+            <span class="small-label">ПОСЛЕДНЯЯ СИНХРОНИЗАЦИЯ</span>
+            <time id="sync-time">ожидаем GitHub…</time>
+            <span id="repo-count" class="repo-count"></span>
+          </div>
+        </div>
+
+        <form class="filters" id="filters" role="search" aria-label="Фильтры репозиториев">
+          <label class="search-field">
+            <span class="field-label">Поиск</span>
+            <span class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg>
+              <input id="search" name="q" type="search" placeholder="Название или описание…" autocomplete="off" disabled>
+            </span>
+          </label>
+          <label>
+            <span class="field-label">Язык</span>
+            <select id="language-filter" name="language" disabled><option value="">Все языки</option></select>
+          </label>
+          <label>
+            <span class="field-label">Тема</span>
+            <select id="topic-filter" name="topic" disabled><option value="">Все темы</option></select>
+          </label>
+          <label>
+            <span class="field-label">Сортировка</span>
+            <select id="sort-filter" name="sort" disabled>
+              <option value="stars">Сначала популярные</option>
+              <option value="updated">Недавно обновлённые</option>
+              <option value="name">По названию</option>
+            </select>
+          </label>
+        </form>
+
+        <div class="error-state" id="global-error" role="alert" hidden>
+          <span class="error-code">CONNECTION / LOST</span>
+          <h3>GitHub пока не отвечает</h3>
+          <p id="global-error-message">Данные ещё не были загружены. Проверьте соединение и повторите попытку.</p>
+          <button class="button" id="retry" type="button">Повторить загрузку <span aria-hidden="true">↗</span></button>
+        </div>
+
+        <div class="repo-grid" id="repo-grid" aria-live="polite" aria-busy="true">
+          <article class="repo-card skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-card-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></article>
+          <article class="repo-card skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-card-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></article>
+          <article class="repo-card skeleton-card"><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-card-title"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line medium"></div></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Собрано из GitHub API. Обновляется само.</span>
+      <span>RUST <span aria-hidden="true">×</span> AXUM <span aria-hidden="true">×</span> <span id="current-year">2026</span></span>
+    </footer>
+  </body>
+</html>

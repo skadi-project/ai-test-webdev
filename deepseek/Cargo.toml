@@ -1,0 +1,53 @@
+[package]
+name = "github-portfolio"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Self-updating portfolio website generated from a GitHub profile"
+license = "MIT"
+
+[dependencies]
+anyhow = "1.0"
+axum = "0.8"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std"] }
+dotenvy = "0.15"
+subtle = "2.6"
+reqwest = { version = "0.12", default-features = false, features = [
+    "rustls-tls",
+    "json",
+    "gzip",
+    "brotli",
+    "charset",
+    "http2",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = [
+    "macros",
+    "rt-multi-thread",
+    "signal",
+    "sync",
+    "time",
+    "fs",
+] }
+tower-http = { version = "0.6", features = [
+    "compression-gzip",
+    "compression-br",
+    "cors",
+    "trace",
+    "timeout",
+    "set-header",
+] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt", "ansi"] }
+url = "2"
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+tempfile = "3"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"

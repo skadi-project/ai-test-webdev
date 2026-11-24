@@ -1,0 +1,5 @@
+target
+.git
+.env
+data/cache
+README.md

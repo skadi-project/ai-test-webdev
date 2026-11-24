@@ -1,0 +1,21 @@
+services:
+  portfolio:
+    build: .
+    env_file: .env
+    environment:
+      PORT: "8080"
+      CACHE_FILE: /data/cache.json
+      LOG_FORMAT: json
+    ports:
+      - "127.0.0.1:${PORT:-8080}:8080"
+    volumes:
+      - portfolio-cache:/data
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+volumes:
+  portfolio-cache:
