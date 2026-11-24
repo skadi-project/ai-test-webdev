@@ -12,7 +12,7 @@
 
 - OpenCode Desktop (2.4.1) - для всех
 
-- Claude Desktop (6.28899.6 (2f5fc5)) - дополнительно для Claude
+- Claude Desktop (6.28899.6) - дополнительно для Claude
 
 **ИИ:**
 
